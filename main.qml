@@ -401,7 +401,7 @@ Window {
                     opacity: 0.7
                 }
 
-                
+
 
                 Image {
                     width: 251
@@ -410,6 +410,25 @@ Window {
                     anchors.centerIn: parent
 
                     source: "file:///" + mediaPlayerControl.songImage
+                }
+
+                Image {
+                    width: 48
+                    height: 51
+                    source:"qrc:/Image/widgetbar/media/media-previous.png"
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 58
+                }
+
+                Image {
+                    width: 48
+                    height: 51
+
+                    source:"qrc:/Image/widgetbar/media/media-next.png"
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 58
                 }
 
                 Text {
