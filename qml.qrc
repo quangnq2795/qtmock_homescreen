@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Image/appbar/background.jpg</file>
+        <file>Image/appbar/icon-map.png</file>
+        <file>Image/appbar/icon-movie.png</file>
+        <file>Image/appbar/icon-music.png</file>
+        <file>Image/appbar/icon-phone.png</file>
+        <file>Image/appbar/icon-radio.png</file>
+        <file>Image/appbar/icon-setting.png</file>
+        <file>Image/widgetbar/climate/ico_climate_01.png</file>
+        <file>Image/widgetbar/climate/ico_wind_level.png</file>
+        <file>Image/widgetbar/climate/widget_climate_wind_level_01.png</file>
+        <file>Image/widgetbar/climate/widget_climate_wind_level_02.png</file>
+        <file>Image/widgetbar/climate/widget_climate_wind_level_03.png</file>
+        <file>Image/widgetbar/climate/widget_climate_wind_level_04.png</file>
+        <file>Image/widgetbar/climate/widget_climate_wind_level_05.png</file>
+        <file>Image/widgetbar/climate/widget_climate_wind_level_06.png</file>
+        <file>Image/widgetbar/climate/widget_climate_wind_level_07.png</file>
+        <file>Image/widgetbar/climate/widget_climate_wind_level_08.png</file>
+        <file>Image/widgetbar/climate/widget_climate_wind_level_09.png</file>
+        <file>Image/widgetbar/climate/widget_climate_wind_level_10.png</file>
+        <file>Image/widgetbar/media/next-button.png</file>
+        <file>Image/widgetbar/media/pause.png</file>
+        <file>Image/widgetbar/media/play-button.png</file>
+        <file>Image/widgetbar/media/previous.png</file>
+    </qresource>
+</RCC>
