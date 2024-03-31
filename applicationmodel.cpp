@@ -1,22 +1,11 @@
-// applicationmodel.cpp
 #include "applicationmodel.h"
 #include "appmanagerappmodel.h"
 #include "QDebug"
 
-
-ApplicationModel::ApplicationModel(QObject *parent)
-    : QAbstractListModel(parent)
+ApplicationModel::ApplicationModel()
+    : QAbstractListModel(nullptr)
 {
     qDebug() << "ApplicationModel create";
-
-    m_data = AppManagerAppModel::getInstance().getApplicationModelData();
-
-    for (int i = m_data.size() - 1; i >= 0; --i) {
-        if (m_data[i].appId() == "homescreen") {
-            m_data.removeAt(i);
-            break;
-        }
-    }
 }
 
 int ApplicationModel::rowCount(const QModelIndex &parent) const
@@ -32,13 +21,13 @@ QVariant ApplicationModel::data(const QModelIndex &index, int role) const
     if (!index.isValid() || index.row() >= m_data.size())
         return QVariant();
 
-    const Application &item = m_data.at(index.row());
+    const Application* item = m_data.at(index.row());
 
     switch (role) {
     case Qt::UserRole + 1: // AppTypeRole
-        return item.appId();
+        return item->id();
     case Qt::UserRole + 2: // IconSourceRole
-        return item.appIcon();
+        return item->appIcon();
     default:
         return QVariant();
     }
@@ -47,17 +36,17 @@ QVariant ApplicationModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> ApplicationModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[Qt::UserRole + 1] = "appType";
+    roles[Qt::UserRole + 1] = "appid";
     roles[Qt::UserRole + 2] = "iconSource";
     return roles;
 }
 
-void ApplicationModel::addApplication(Application app) {
+void ApplicationModel::addApplication(Application* app) {
     bool isAppExits = false;
-    QString appId = app.appId();
+    QString appId = app->id();
 
-    for (const Application &m_app : m_data) {
-        if(appId == m_app.appId()) {
+    for (const Application* m_app : m_data) {
+        if(appId == m_app->id()) {
             isAppExits = true;
             break;
         }
@@ -70,10 +59,3 @@ void ApplicationModel::addApplication(Application app) {
     }
 }
 
-Application ApplicationModel::getApplication(int appIndex){
-    if(appIndex < 0 || appIndex >= m_data.size()) {
-        return Application("00000","invalid",false,-1,"invalid");
-    }
-
-    return m_data[appIndex];
-}

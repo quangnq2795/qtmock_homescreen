@@ -15,7 +15,7 @@ public:
     }
 
 
-    QList<Application> getApplicationModelData();
+    QList<Application*> getApplicationModelData();
 
 private:
     AppManagerAppModel(const AppManagerAppModel&) = delete;

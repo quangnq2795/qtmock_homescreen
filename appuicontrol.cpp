@@ -1,40 +1,89 @@
 #include "appuicontrol.h"
 #include "appmanageruicontrol.h"
-
-AppUIControl::AppUIControl(ApplicationBar* appBar, WidgetBar *widgetBar, QObject* parent): m_appBar(appBar), m_widgetBar(widgetBar)
+#include "mediaplayercontrol.h"
+AppUIControl::AppUIControl(ApplicationBar* appBar, WidgetBar *widgetBar, QObject* parent)
 {
     qDebug() << "HomeScreen startup";
 
+    m_uiBarList["appbar"] = appBar;
+    m_uiBarList["widgetbar"] = widgetBar;
+
     m_UIControlReceiver = new IAppUIControlReceiver();
+    connect(m_UIControlReceiver, &IAppUIControlReceiver::appVisibleChanged, this, &AppUIControl::handleAppVisibleChanged);
 
-    connect(m_UIControlReceiver, &IAppUIControlReceiver::appVisibleChanged, this, &AppUIControl::handleHomeScreenAppVisibleChanged);
-
-    connect(this, SIGNAL(applicationClicked(int)), appBar, SLOT(handleRunApplication(int)));
-    connect(this, SIGNAL(widgetUpdated(QString, QString, QVariant)), widgetBar, SLOT(handleWidgetEvent(QString, QString, QVariant)));
+    connect(MediaPlayer::getInstance(), &MediaPlayer::songPlayingChanged, this, &AppUIControl::songPlayingChanged);
+    connect(MediaPlayer::getInstance(), &MediaPlayer::songSingerChanged, this, &AppUIControl::songSingerChanged);
+    connect(MediaPlayer::getInstance(), &MediaPlayer::songTitleChanged, this, &AppUIControl::songTitleChanged);
+    connect(MediaPlayer::getInstance(), &MediaPlayer::songImageChanged, this, &AppUIControl::songImageChanged);
+    connect(MediaPlayer::getInstance(), &MediaPlayer::songDurationChanged, this, &AppUIControl::songDurationChanged);
+    connect(MediaPlayer::getInstance(), &MediaPlayer::songTimeChanged, this, &AppUIControl::songTimeChanged);
 
     m_appVisible = AppManagerUIControl::getInstance().getAppVisible("homescreen");
-
 }
 
-void AppUIControl::uiEventApplicationClicked(int index)
+void AppUIControl::handleAppVisibleChanged(bool val)
 {
-    emit applicationClicked(index);
+    if(m_appVisible != val) {
+        m_appVisible = val;
+        emit visibleChanged();
+    }
 }
 
-void AppUIControl::uiEventWidgetUpdated(QString widgetId, QString event, QVariant data)
+void AppUIControl::uiEvent(QVariant eData)
 {
-    emit widgetUpdated(widgetId, event, data);
+    if (eData.canConvert<QVariantMap>()) {
+        QVariantMap eventDataMap = eData.toMap();
+        QString bid = eventDataMap.value("bid").toString();
+        QString cid = eventDataMap.value("cid").toString();
+        QString event = eventDataMap.value("event").toString();
+        QVariant data = eventDataMap.value("data");
+
+        // Create an EventData object
+        EventData eventData(bid,cid,event,data);
+
+        if (m_uiBarList.contains(bid)) {
+            IUIBar* handler = m_uiBarList.value(bid);
+            handler->emitEvent(eventData);
+        } else {
+            qDebug() << "No handler widget for ID:" << bid;
+        }
+    } else {
+        qDebug() << "Invalid QVariant type for event data";
+    }
 }
 
-bool AppUIControl::getHomeScreenAppVisibleProperty() const
+
+bool AppUIControl::getVisibleProperty() const
 {
     return m_appVisible;
 }
 
-void AppUIControl::handleHomeScreenAppVisibleChanged(bool val)
+bool AppUIControl::getSongPlaying() const
 {
-    if(m_appVisible != val) {
-        m_appVisible = val;
-        emit homeScreenAppVisibleChanged();
-    }
+    return MediaPlayer::getInstance()->getPlayerState();
+}
+
+QString AppUIControl::getSongSinger() const
+{
+    return MediaPlayer::getInstance()->getSongSinger();
+}
+
+QString AppUIControl::getSongTitle() const
+{
+    return MediaPlayer::getInstance()->getSongTitle();
+}
+
+QString AppUIControl::getSongImage() const
+{
+    return MediaPlayer::getInstance()->getSongImage();
+}
+
+int AppUIControl::getSongDuration() const
+{
+    return MediaPlayer::getInstance()->getSongDuration();
+}
+
+int AppUIControl::getSongPlayingTime() const
+{
+    return MediaPlayer::getInstance()->getSongPlayingTime();
 }

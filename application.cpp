@@ -1,5 +1,5 @@
 #include "application.h"
-
+#include "appmanageruicontrol.h"
 #include "QDebug"
 
 Application::Application(QString appId, QString appName, bool visible,int seq, QString appIcon):
@@ -11,9 +11,11 @@ Application::Application(QString appId, QString appName, bool visible,int seq, Q
     qDebug() << "visible:" << visible;
     qDebug() << "seq:" << seq;
     qDebug() << "appIcon:" << appIcon;
+
+    eventHandlers["clicked"] = std::bind(&Application::clicked, this, std::placeholders::_1);
 }
 
-QString Application::appId()  const
+QString Application::id()  const
 {
     return m_appId;
 }
@@ -36,4 +38,10 @@ bool Application::visible()  const
 int Application::seq()  const
 {
     return m_seq;
+}
+
+void Application::clicked(QVariant data)
+{
+    Q_UNUSED(data);
+    AppManagerUIControl::getInstance().requestShow(m_appId);
 }

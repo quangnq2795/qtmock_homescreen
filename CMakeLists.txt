@@ -52,11 +52,16 @@ set(PROJECT_SOURCES
     appuicontrol.h
     applicationbar.h
     applicationbar.cpp
+    iuibar.h
+    iuibar.cpp
     widgetbar.cpp
     widgetbar.h
-    iwidget.h
+    icomponent.h
+    icomponent.cpp
     mediawidget.cpp
     mediawidget.h
+    eventdata.cpp
+    eventdata.h
     iappuicontrol.h
     iappuicontrolreceiver.h
     iappuicontrolreceiver.cpp

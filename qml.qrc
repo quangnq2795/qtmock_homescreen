@@ -20,9 +20,10 @@
         <file>Image/widgetbar/climate/widget_climate_wind_level_08.png</file>
         <file>Image/widgetbar/climate/widget_climate_wind_level_09.png</file>
         <file>Image/widgetbar/climate/widget_climate_wind_level_10.png</file>
-        <file>Image/widgetbar/media/pause.png</file>
-        <file>Image/widgetbar/media/play-button.png</file>
         <file>Image/widgetbar/media/media-next.png</file>
         <file>Image/widgetbar/media/media-previous.png</file>
+        <file>Image/widgetbar/media/button-next-hover.png</file>
+        <file>Image/widgetbar/media/button-previous-hover.png</file>
+        <file>Image/widgetbar/media/button-pause.png</file>
     </qresource>
 </RCC>

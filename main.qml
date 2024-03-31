@@ -10,7 +10,7 @@ Window {
     id: windows
     width: 1920
     height: 1080
-    visible: appUIControl.isHomeScreenAppVisible
+    visible: appUIControl.isVisible
 
     Rectangle {
         id: homeScreen
@@ -397,7 +397,7 @@ Window {
                 Image {
                     anchors.fill: parent
 
-                    source: "file:///" + mediaPlayerControl.songImage
+                    source: "file:///" + appUIControl.songImage
                     opacity: 0.7
                 }
 
@@ -409,26 +409,123 @@ Window {
 
                     anchors.centerIn: parent
 
-                    source: "file:///" + mediaPlayerControl.songImage
+                    source: "file:///" + appUIControl.songImage
                 }
 
                 Image {
+                    id: mediawidget_previous_button
                     width: 48
                     height: 51
                     source:"qrc:/Image/widgetbar/media/media-previous.png"
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 58
+                    anchors.leftMargin: 40
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+
+                        onClicked: {
+                            homeScreen.setUIEvent("widgetbar", "mediawidget","previous");
+                        }
+                        onPressed: {
+                            mediawidget_previous_button.source = "qrc:/Image/widgetbar/media/button-previous-hover.png"
+                        }
+
+                        onReleased: {
+                            mediawidget_previous_button.source = "qrc:/Image/widgetbar/media/media-previous.png"
+                        }
+                        onEntered: {
+                            cursorShape = Qt.PointingHandCursor;
+                        }
+
+                        onExited: {
+                            cursorShape = Qt.ArrowCursor;
+
+                        }
+
+                    }
                 }
 
                 Image {
+                    id: mediawidget_next_button
                     width: 48
                     height: 51
 
                     source:"qrc:/Image/widgetbar/media/media-next.png"
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    anchors.rightMargin: 58
+                    anchors.rightMargin: 40
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+
+                        onClicked: {
+                            homeScreen.setUIEvent("widgetbar", "mediawidget","next");
+                        }
+
+                        onPressed: {
+                            mediawidget_next_button.source = "qrc:/Image/widgetbar/media/button-next-hover.png"
+
+                        }
+
+                        onReleased: {
+                            mediawidget_next_button.source = "qrc:/Image/widgetbar/media/media-next.png"
+                        }
+
+                        onEntered: {
+                            cursorShape = Qt.PointingHandCursor;
+                        }
+
+                        onExited: {
+                            cursorShape = Qt.ArrowCursor;
+                        }
+
+                    }
+                }
+
+                Image {
+                    id: mediawidget_play_button
+                    width: 48
+                    height: 51
+
+                    source:"qrc:/Image/widgetbar/media/media-next.png"
+                    anchors.centerIn: parent
+                    property bool isPlaying: appUIControl.songPlaying;
+
+                    onIsPlayingChanged: {
+                        if(appUIControl.songPlaying) {
+                            mediawidget_play_button.source = "qrc:/Image/widgetbar/media/button-pause.png"
+                        } else {
+                            mediawidget_play_button.source = "qrc:/Image/widgetbar/media/media-next.png"
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+
+                        onClicked: {
+
+
+                            if (appUIControl.songPlaying) {
+                                homeScreen.setUIEvent("widgetbar", "mediawidget","pause");
+                            } else {
+                                homeScreen.setUIEvent("widgetbar", "mediawidget","play");
+                            }
+                        }
+
+
+                        onEntered: {
+                            cursorShape = Qt.PointingHandCursor;
+                        }
+
+                        onExited: {
+                            cursorShape = Qt.ArrowCursor;
+                        }
+
+                    }
                 }
 
                 Text {
@@ -447,7 +544,7 @@ Window {
                 }
 
                 Text {
-                    text: mediaPlayerControl.songSinger
+                    text: appUIControl.songSinger
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: 100
@@ -461,8 +558,10 @@ Window {
 
                 }
 
+                
+
                 Text {
-                    text: mediaPlayerControl.songTitle
+                    text: appUIControl.songTitle
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: 50
@@ -524,7 +623,7 @@ Window {
                         drag.axis: Drag.XAxis
 
                         onClicked: {
-                            appUIControl.uiEventApplicationClicked(index);
+                            homeScreen.setUIEvent("appbar",model.appid,"clicked");
                         }
 
 
@@ -597,6 +696,17 @@ Window {
                 anchors.left: parent.left
                 anchors.leftMargin: 15
             }
+        }
+
+        function setUIEvent(bid, cid, event, edata = {}) {
+            var eventData = {
+                bid: bid,
+                cid: cid,
+                event: event,
+                data: edata ,
+            };
+
+            appUIControl.uiEvent(eventData);
         }
 
     }

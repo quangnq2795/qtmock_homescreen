@@ -66,22 +66,22 @@ void MediaPlayer::handleSongPlayingChanged(int songId, const QString& songName,c
 {
     if(songName != m_songTitle) {
         m_songTitle = songName;
-        emit mediaPlayingSongTitleChanged();
+        emit songTitleChanged();
     }
 
     if(singer != m_songSinger) {
         m_songSinger = singer;
-        emit mediaPlayingSongSingerChanged();
+        emit songSingerChanged();
     }
 
     if(imagePath != m_songImage) {
         m_songImage = imagePath;
-        emit mediaPlayingSongImageChanged();
+        emit songImageChanged();
     }
 
     if(totalTime != m_songDuration) {
         m_songDuration = totalTime;
-        emit mediaPlayingSongDurationChanged();
+        emit songDurationChanged();
     }
 }
 
@@ -89,7 +89,7 @@ void MediaPlayer::handleMediaPlayerStateChanged(bool isPlaying)
 {
     if(isPlaying != m_isPlaying) {
         m_isPlaying = isPlaying;
-        emit mediaPlayerStateChanged();
+        emit songPlayingChanged();
     }
 }
 
@@ -97,7 +97,7 @@ void MediaPlayer::handleSongPlayingTimeChanged(int time)
 {
     if(m_playingTime != time) {
         m_playingTime = time;
-        emit mediaSongPlayingTimeChanged();
+        emit songTimeChanged();
     }
 }
 
@@ -115,22 +115,22 @@ void MediaPlayer::getDefaulSongPlayingInfo()
 
         if(songName != m_songTitle) {
             m_songTitle = songName;
-            emit mediaPlayingSongTitleChanged();
+            emit songTitleChanged();
         }
 
         if(singer != m_songSinger) {
             m_songSinger = singer;
-            emit mediaPlayingSongSingerChanged();
+            emit songSingerChanged();
         }
 
         if(imagePath != m_songImage) {
             m_songImage = imagePath;
-            emit mediaPlayingSongImageChanged();
+            emit songImageChanged();
         }
 
         if(totalTime != m_songDuration) {
             m_songDuration = totalTime;
-            emit mediaPlayingSongDurationChanged();
+            emit songDurationChanged();
         }
 
     } else {
@@ -142,13 +142,13 @@ void MediaPlayer::getDefaulSongPlayingInfo()
         if(m_playingTime != playingTime)
         {
             m_playingTime = playingTime;
-            emit mediaSongPlayingTimeChanged();
+            emit songTimeChanged();
         }
     }
 
     bool isPlaying = m_mediaPlayer->isPlaying();
     if(isPlaying != m_isPlaying) {
         m_isPlaying = isPlaying;
-        emit mediaPlayerStateChanged();
+        emit songPlayingChanged();
     }
 }
