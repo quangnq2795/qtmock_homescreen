@@ -5,9 +5,9 @@ AppManagerAppModel::AppManagerAppModel()
     m_appModel = QSharedPointer<local::IAppManagerAppModel>::create("com.services.appmanager", "/com/services/appmanager/appmodel", QDBusConnection::sessionBus());
 }
 
-QList<Application> AppManagerAppModel::getApplicationModelData()
+QList<Application*> AppManagerAppModel::getApplicationModelData()
 {
-    QList<Application> applicationList;
+    QList<Application*> applicationList;
     QString jsonString= m_appModel->getApplicationModelData();
 
 
@@ -34,7 +34,7 @@ QList<Application> AppManagerAppModel::getApplicationModelData()
             QString appIcon = jsonObj["appIcon"].toString();
 
             // Create Application object and add to list
-            Application app(appId, appName, visible, seq, appIcon);
+            Application* app = new Application(appId, appName, visible, seq, appIcon);
             applicationList.append(app);
         }
 

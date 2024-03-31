@@ -1,4 +1,3 @@
-// applicationmodel.h
 #ifndef APPLICATIONMODEL_H
 #define APPLICATIONMODEL_H
 
@@ -13,18 +12,27 @@ class ApplicationModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    explicit ApplicationModel(QObject *parent = nullptr);
+    static ApplicationModel& getInstance() {
+        static ApplicationModel instance;
+        return instance;
+    }
+
+    // Delete copy constructor and assignment operator
+    ApplicationModel(ApplicationModel const&) = delete;
+    void operator=(ApplicationModel const&) = delete;
 
     // QAbstractListModel overrides
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void addApplication(Application app);
-    Application getApplication(int appIndex);
-private:
+    void addApplication(Application* app);
 
-    QList<Application> m_data;
+private:
+    ApplicationModel();
+    ~ApplicationModel() = default;
+
+    QList<Application*> m_data;
 };
 
-#endif // APPLICATIONMODEL_H
+#endif

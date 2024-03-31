@@ -8,6 +8,7 @@
 #include "applicationbar.h"
 #include "mediaplayercontrol.h"
 #include "widgetbar.h"
+#include "eventdata.h"
 
 #include "appuicontrol.h"
 
@@ -18,8 +19,7 @@ int main(int argc, char *argv[])
 #endif
     QGuiApplication app(argc, argv);
 
-    ApplicationModel appModel;
-    ApplicationBar   appBar(&appModel);
+    ApplicationBar   appBar;
 
     WidgetBar        widgetBar;
 
@@ -28,10 +28,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     // application bar
-    engine.rootContext()->setContextProperty("appModel", &appModel);
-
-    // widget bar
-    engine.rootContext()->setContextProperty("mediaPlayerControl", MediaPlayer::getInstance());
+    engine.rootContext()->setContextProperty("appModel", &ApplicationModel::getInstance());
 
     // application
     engine.rootContext()->setContextProperty("appUIControl", &appUIControl);

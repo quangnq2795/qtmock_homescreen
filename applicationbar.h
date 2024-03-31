@@ -2,21 +2,17 @@
 #define APPLICATIONBAR_H
 
 #include <QObject>
+#include <QMap>
 
+#include "iuibar.h"
 #include "applicationmodel.h"
 
 
-class ApplicationBar: public QObject
+class ApplicationBar: public IUIBar
 {
     Q_OBJECT
 public:
-    ApplicationBar(ApplicationModel* model, QObject *parent = nullptr);
-
-public slots:
-    void handleRunApplication(int appIndex);
-
-private:
-    ApplicationModel* m_appmodel;
+    ApplicationBar();
 };
 
 #endif // APPLICATIONBAR_H

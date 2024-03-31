@@ -4,16 +4,23 @@
 #include <QObject>
 #include <QString>
 
-class Application
+#include "eventdata.h"
+#include "icomponent.h"
+
+class Application: public IComponent
 {
 public:
     Application(QString appId, QString appName, bool visible,int seq, QString appIcon);
 
-    QString appId() const;
+    QString id() const override;
     QString appName()  const;
     bool    visible()  const;
     int     seq()  const;
     QString appIcon()  const;
+
+
+private:
+    void clicked(QVariant data);
 
 private:
     QString m_appId;
