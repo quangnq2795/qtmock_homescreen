@@ -14,12 +14,12 @@ class AppUIControl: public QObject
     Q_OBJECT
     Q_PROPERTY(bool isVisible READ getVisibleProperty NOTIFY visibleChanged)
 
-    Q_PROPERTY(bool songPlaying READ getSongPlaying NOTIFY songPlayingChanged)
+    Q_PROPERTY(bool    songPlaying READ getSongPlaying NOTIFY songPlayingChanged)
     Q_PROPERTY(QString songSinger READ getSongSinger NOTIFY songSingerChanged)
     Q_PROPERTY(QString songTitle READ getSongTitle NOTIFY songTitleChanged)
     Q_PROPERTY(QString songImage READ getSongImage NOTIFY songImageChanged)
-    Q_PROPERTY(int songDuration READ getSongDuration NOTIFY songDurationChanged)
-    Q_PROPERTY(int songPlayingTime READ getSongPlayingTime NOTIFY songTimeChanged)
+    Q_PROPERTY(QString songDuration READ getSongDuration NOTIFY songDurationChanged)
+    Q_PROPERTY(float   songPlayingTime READ getSongPlayingTime NOTIFY songTimeChanged)
 
 public:
     AppUIControl(ApplicationBar* appBar, WidgetBar *widgetBar, QObject* parent = nullptr);
@@ -44,8 +44,8 @@ private:
     QString getSongSinger() const;
     QString getSongTitle() const;
     QString getSongImage() const;
-    int     getSongDuration() const;
-    int     getSongPlayingTime() const;
+    QString getSongDuration() const;
+    float   getSongPlayingTime() const;
 
 private:
     bool m_appVisible;
