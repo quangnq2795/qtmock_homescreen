@@ -78,12 +78,23 @@ QString AppUIControl::getSongImage() const
     return MediaPlayer::getInstance()->getSongImage();
 }
 
-int AppUIControl::getSongDuration() const
+QString AppUIControl::getSongDuration() const
 {
-    return MediaPlayer::getInstance()->getSongDuration();
+    int duration = MediaPlayer::getInstance()->getSongDuration();
+    int minute   = duration/60;
+    int seconds  = duration%60;
+
+    return QString::number(minute) + ":" + QString::number(seconds);
 }
 
-int AppUIControl::getSongPlayingTime() const
+float AppUIControl::getSongPlayingTime() const
 {
-    return MediaPlayer::getInstance()->getSongPlayingTime();
+    int time     = MediaPlayer::getInstance()->getSongPlayingTime();
+
+    float percent = static_cast<float>(time) / 100;
+
+    percent = QString::number(percent, 'f', 2).toFloat();
+
+    return percent;
+
 }

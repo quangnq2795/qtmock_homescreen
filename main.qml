@@ -576,10 +576,28 @@ Window {
                 }
 
                 ProgressBar {
+                    id: mediawidget_progess
                     width: 352
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: 21
+
+                    value: appUIControl.songPlayingTime
+                }
+
+                Text {
+                    text: appUIControl.songDuration
+
+                    anchors.left: mediawidget_progess.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: mediawidget_progess.verticalCenter
+
+                    font {
+                        family: "Sawarabi Mincho"
+                        pixelSize: 15
+                    }
+
+                    color: "white"
                 }
             }
         }
